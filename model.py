@@ -1,13 +1,16 @@
-from sqlalchemy import create_engine,Column,String,Integer,ForeignKey,Boolean,Float,Time
+from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, Boolean, Float, Time, exc, event
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker ,relationship
 import sqlite3
+import os
 
 Base=declarative_base()
 
-engine=create_engine("sqlite:///database.db", echo=True)
+engine=create_engine('sqlite:///database.db', echo=True)
+
 Session=sessionmaker(bind=engine)
 session=Session()
+
 
 class MCQ(Base):
     __tablename__='MCQ'
@@ -21,8 +24,7 @@ class MCQ(Base):
     mark=Column('mark',Float,nullable=False)
     Quiz_id = Column(Integer, ForeignKey('Quiz.id'))
 
-    def __init__(self,id,Question,first_choice,second_choice,third_choice,fourth_choice,answer,mark,Quiz_id):
-        self.id=id
+    def __init__(self,Question,first_choice,second_choice,third_choice,fourth_choice,answer,mark,Quiz_id):
         self.Question=Question
         self.first_Choice=first_choice
         self.second_Choice=second_choice
@@ -40,8 +42,7 @@ class TrueOrFalse(Base):
     mark = Column('mark', Float, nullable=False)
     Quiz_id = Column(Integer, ForeignKey('Quiz.id'))
 
-    def __init__(self, id, Question, answer, mark, Quiz_id):
-        self.id = id
+    def __init__(self, Question, answer, mark, Quiz_id):
         self.Question = Question
         self.answer = answer
         self.mark = mark
@@ -55,8 +56,7 @@ class Essay_Question(Base):
     mark = Column('mark', Float, nullable=False)
     Quiz_id = Column(Integer, ForeignKey('Quiz.id'))
 
-    def __init__(self, id, Question, answer, mark, Quiz_id):
-        self.id = id
+    def __init__(self, Question, answer, mark, Quiz_id):
         self.Question = Question
         self.answer = answer
         self.mark = mark
@@ -70,8 +70,7 @@ class Integer_Question(Base):
     mark = Column('mark', Float, nullable=False)
     Quiz_id = Column(Integer, ForeignKey('Quiz.id'))
 
-    def __init__(self, id, Question, answer, mark, Quiz_id):
-        self.id = id
+    def __init__(self, Question, answer, mark, Quiz_id):
         self.Question = Question
         self.answer = answer
         self.mark = mark
@@ -85,8 +84,7 @@ class Float_Question(Base):
     mark = Column('mark', Float, nullable=False)
     Quiz_id = Column(Integer, ForeignKey('Quiz.id'))
 
-    def __init__(self, id, Question, answer, mark, Quiz_id):
-        self.id = id
+    def __init__(self, Question, answer, mark, Quiz_id):
         self.Question = Question
         self.answer = answer
         self.mark = mark
@@ -94,18 +92,14 @@ class Float_Question(Base):
 
 class Quiz(Base):
     __tablename__ = 'Quiz'
-    id = Column( Integer,primary_key=True)
-    Time=Column(Time, nullable=False)
-    Mcq =relationship("MCQ", backref='Quiz')
-    TrueOrFalse=relationship(" TrueOrFalse",backref='Quiz')
-    Essay_Question=relationship("Essay_Question",backref='Quiz')
-    Integer_Question = relationship("Integer_Question", backref='Quiz')
-    Float_Question = relationship("Float_Question", backref='Quiz')
+    id = Column(Integer,primary_key=True)
+    Duration=Column('Duration',Integer, nullable=False)
+    Mcq =relationship("MCQ")
+    TrueOrFalse=relationship("TrueOrFalse")
+    Essay_Question=relationship("Essay_Question")
+    Integer_Question = relationship("Integer_Question")
+    Float_Question = relationship("Float_Question")
 
 Base.metadata.create_all(bind=engine)
 
-MCq=MCQ(1,'how old are you','1','2','3','4','3',2)
-
-session.add(MCq)
-session.commit()
 session.close()
