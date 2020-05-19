@@ -2,12 +2,9 @@ from sqlalchemy import create_engine, Column, String, Integer, ForeignKey, Boole
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker ,relationship
 import sqlite3
-import os
 
 Base=declarative_base()
-
 engine=create_engine('sqlite:///database.db', echo=True)
-
 Session=sessionmaker(bind=engine)
 session=Session()
 
@@ -33,6 +30,7 @@ class MCQ(Base):
         self.answer=answer
         self.mark=mark
         self.Quiz_id=Quiz_id
+
 
 class TrueOrFalse(Base):
     __tablename__='TrueOrFalse'
@@ -93,10 +91,11 @@ class Float_Question(Base):
 class Quiz(Base):
     __tablename__ = 'Quiz'
     id = Column(Integer,primary_key=True)
-    Duration=Column('Duration',Integer, nullable=False)
-    Mcq =relationship("MCQ")
-    TrueOrFalse=relationship("TrueOrFalse")
-    Essay_Question=relationship("Essay_Question")
+    name = Column('name',String,nullable=False)
+    Duration = Column('Duration',Integer, nullable=False)
+    Mcq = relationship("MCQ")
+    TrueOrFalse = relationship("TrueOrFalse")
+    Essay_Question = relationship("Essay_Question")
     Integer_Question = relationship("Integer_Question")
     Float_Question = relationship("Float_Question")
 

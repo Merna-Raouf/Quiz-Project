@@ -21,6 +21,7 @@ def Add_MCQ(Quiz):
         session.add(new)
         session.commit()
 
+
 def Add_TrueOrFalse(Quiz):
     """
     it adds new True or false question to the Quiz
@@ -28,16 +29,16 @@ def Add_TrueOrFalse(Quiz):
     :return:
     """
     num = input('How many Questions do you need to add ? ')
-    print(num)
-    for i in num:
+    for i in range(int(num)):
         Question = input('Enter the Question: ')
         answer = input('Enter the right answer of the Question: ')
         mark = input('Enter the mark of the Question: ')
 
-    new = TrueOrFalse(Question,answer, mark, Quiz.id)
-    Quiz.TrueOrFalse.append(new)
-    session.add(new)
-    session.commit()
+        new = TrueOrFalse(Question,bool(answer), mark, Quiz.id)
+        Quiz.TrueOrFalse.append(new)
+        session.add(new)
+        session.commit()
+
 
 def Add_EssayQuestion(Quiz):
     """
@@ -46,15 +47,15 @@ def Add_EssayQuestion(Quiz):
     :return:
     """
     num = input('How many Questions do you need to add ? ')
-    print(num)
-    for i in num:
+    for i in range(int(num)):
         Question = input('Enter the Question: ')
         answer = input('Enter the right answer of the Question: ')
         mark = input('Enter the mark of the Question: ')
-    new = Essay_Question(Question,answer, mark, Quiz.id)
-    Quiz.Essay_Question.append(new)
-    session.add(new)
-    session.commit()
+        new = Essay_Question(Question,answer, mark, Quiz.id)
+        Quiz.Essay_Question.append(new)
+        session.add(new)
+        session.commit()
+
 
 def Add_IntegerQuestion(Quiz):
     """
@@ -63,16 +64,16 @@ def Add_IntegerQuestion(Quiz):
     :return:
     """
     num = input('How many Questions do you need to add ? ')
-    print(num)
-    for i in num:
+    for i in range(int(num)):
         Question = input('Enter the Question: ')
         answer = input('Enter the right answer of the Question: ')
         mark = input('Enter the mark of the Question: ')
 
-    new = Integer_Question(Question,answer, mark, Quiz.id)
-    Quiz.Integer_Question.append(new)
-    session.add(new)
-    session.commit()
+        new = Integer_Question(Question,answer, mark, Quiz.id)
+        Quiz.Integer_Question.append(new)
+        session.add(new)
+        session.commit()
+
 
 def Add_FloatQuestion(Quiz):
     """
@@ -81,59 +82,59 @@ def Add_FloatQuestion(Quiz):
     :return:
     """
     num = input('How many Questions do you need to add ? ')
-    print(num)
-    for i in num:
+    for i in range(int(num)):
         Question = input('Enter the Question: ')
         answer = input('Enter the right answer of the Question: ')
         mark = input('Enter the mark of the Question: ')
 
-    new = Float_Question(Question,answer, mark, Quiz.id)
-    Quiz.Float_Question.append(new)
-    session.add(new)
-    session.commit()
+        new = Float_Question(Question,answer, mark, Quiz.id)
+        Quiz.Float_Question.append(new)
+        session.add(new)
+        session.commit()
+
 
 def Add_Quiz():
     """
-    to Add a q
+    it allows the teacher to add a new quiz
     :return:
     """
+    name=input('Enter the name of the Quiz: ')
     Duration=input('Enter the Duration of the Quiz: ')
-    quiz = Quiz(Duration=Duration)
+    quiz = Quiz(name=str(name),Duration=Duration)
     session.add(quiz)
     session.commit()
-    MORE='YES'
-    while(MORE=='YES'):
+    MORE='Y'
+
+    while(MORE=='Y'):
         TypeofQuestion=input("""
         Choose the Type of the Question
-        MCQ
-        True or False
-        Essay Question
-        Integer Question
-        Float Question
+        1.MCQ
+        2.True or False
+        3.Essay Question
+        4.Integer Question
+        5.Float Question
+        Enter The Number of the Question:
         """)
 
-        if (TypeofQuestion=='MCQ'):
+        if (TypeofQuestion=='1'):
             Add_MCQ(quiz)
 
-        elif (TypeofQuestion=='True or False'):
+        elif (TypeofQuestion=='2'):
             Add_TrueOrFalse(quiz)
 
-        elif (TypeofQuestion == 'Essay Question'):
+        elif (TypeofQuestion == '3'):
             Add_EssayQuestion(quiz)
 
-        elif (TypeofQuestion == 'Integer Question'):
+        elif (TypeofQuestion == '4'):
             Add_IntegerQuestion(quiz)
 
-        elif (TypeofQuestion == 'Float Question'):
+        elif (TypeofQuestion == '5'):
             Add_FloatQuestion(quiz)
 
         MORE=input("""Do you want to add more questions? 
-        YES
-        NO 
+        Enter Y for YES
+        Enter N for NO 
         """)
 
-Add_Quiz()
-#records = session.query(Quiz).all()
-#for record in records:
-#    print(record)
+
 
