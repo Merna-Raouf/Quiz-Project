@@ -135,6 +135,12 @@ def Add_Quiz():
         Enter Y for YES
         Enter N for NO 
         """)
+        while (MORE != "Y" and MORE!= "N"):
+            print("please Try again")
+            MORE = input("""Do you want to add more questions? 
+                   Enter Y for YES
+                   Enter N for NO 
+                   """)
 
 
 
